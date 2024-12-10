@@ -66,11 +66,11 @@ async function orderCreate(cpf, recebido, vpoint, bp) {
     const [qnsd] = await pool.query(QNSD, [cpf]);
     const novosaldo = qnsd[0].point;
     
-    const message = `Oi, ${clientName}! ðŸ˜Š
-O seu saldo de cashback Ã© de R$ ${novosaldo}. Use-o para tornar a sua prÃ³xima compra ainda mais especial! ðŸ’• Estamos ansiosos por vÃª-lo(a) novamente.
+    const message = `Oi, ${clientName}! 😊
+O seu saldo de cashback é de R$ ${novosaldo}. Use-o para tornar a sua próxima compra ainda mais especial! 💕 Estamos ansiosos por vê-lo(a) novamente.
 
-Um abraÃ§o,
-Toca do AÃ§aÃ­`;
+Um abraço,
+Toca do Açaí­`;
     
     if (pontos_cliente != null) {
         await venomClient.sendText(telefone, message);   

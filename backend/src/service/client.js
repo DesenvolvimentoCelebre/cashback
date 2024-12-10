@@ -11,16 +11,16 @@ async function clientCreate(cpf, name, tel) {
 	const venomClient = getVenomClient();
 	
 	const message = `
-ðŸŒŸ *Bem-vindo Ã  Toca do AÃ§aÃ­!* ðŸŒŸ
+🌟 Bem-vindo à Toca do Açaí! 🌟
 
-Ficamos muito felizes em ter vocÃª como cliente. Aqui, alÃ©m de saborear o melhor aÃ§aÃ­ da regiÃ£o, vocÃª acumula **cashback** em todas as suas compras!
+Ficamos muito felizes em ter você como cliente. Aqui, além de saborear o melhor açaí da região, você acumula *cashback* em todas as suas compras!
 
-ðŸ’° *Como funciona o Cashback?*
-A cada compra que vocÃª fizer, vocÃª vai acumular um saldo de cashback. Quando esse saldo atingir *R$3,00 ou mais*, vocÃª poderÃ¡ utilizÃ¡-lo como desconto nas suas prÃ³ximas compras!
+💰 Como funciona o Cashback?
+A cada compra que você fizer, você vai acumular um saldo de cashback. Quando esse saldo atingir R$3,00 ou mais, você poderá utilizá-lo como desconto nas suas próximas compras!
 
-ðŸ§ *NÃ£o perca a oportunidade de aproveitar ainda mais nossos deliciosos aÃ§aÃ­s com descontos exclusivos.*
+🍧 Não perca a oportunidade de aproveitar ainda mais nossos deliciosos açaís com descontos exclusivos.
 
-Fique Ã  vontade para aproveitar todos os benefÃ­cios e continue saboreando o melhor do aÃ§aÃ­! ðŸ˜‹
+Fique à vontade para aproveitar todos os benefícios e continue saboreando o melhor do açaí! 😋
 `;
 
         const tele = `55${tel}@c.us`
