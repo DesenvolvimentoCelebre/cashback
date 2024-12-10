@@ -1,25 +1,21 @@
 const express = require('express');
+const { welcome, clientPoint } = require('../service/integracao');
+const wpp = express.Router()
 
-const wpp = express.Router();
+wpp.post("/welcome", async (req, res) => {
+    const {tel} = req.body;
 
-wpp.post('/send-message', async (req, res) => {
-    const { number, message } = req.body;
-  
-    if (!number || !message) {
-      return res.status(400).json({ error: 'Número e mensagem são obrigatórios!' });
-    }
-  
-    const client = getVenomClient();
-    if (!client) {
-      return res.status(500).json({ error: 'Venom Bot ainda não está inicializado!' });
-    }
-    try {
-      const result = await client.sendText(`${number}@c.us`, message);
-      res.status(200).json({ success: true, result });
-    } catch (error) {
-      console.error('Erro ao enviar mensagem:', error);
-      res.status(500).json({ success: false, error: error.message });
-    }
-  });
+    const result = await welcome(tel);
+
+    result.success ? res.status(200).json(result) : res.status(500).json(result)
+})
+
+wpp.post("/cashback", async (req, res) => {
+    const {id} = req.body;
+
+    const result = await clientPoint(id);
+
+    result.success ? res.status(200).json(result) : res.status(500).json(result)
+})
 
 module.exports = wpp
