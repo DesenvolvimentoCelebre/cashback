@@ -41,9 +41,6 @@ server.listen(port, () => {
     initializeVenom()
         .then((client) => {
             console.log('Venom bot iniciado');
-            global.wsClients.forEach(client => {
-                client.send(JSON.stringify({ message: "Whatsapp vinculado com sucesso"}))
-            })
         })
         .catch((error) => {
             console.error('Erro ao iniciar Venom Bot:', error);
