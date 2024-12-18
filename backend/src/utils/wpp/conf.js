@@ -1,5 +1,6 @@
 const venom = require('venom-bot');
 let venomClient = null;
+let venomError = null;
 
 function initializeVenom() {
   return new Promise((resolve, reject) => {
@@ -46,6 +47,7 @@ function initializeVenom() {
         resolve(client);
       })
       .catch((error) => {
+        venomError = error;
         reject(error);
       });
   });
@@ -54,4 +56,5 @@ function initializeVenom() {
 module.exports = {
   initializeVenom,
   getVenomClient: () => venomClient,
+  getVenomError: () => venomError
 };

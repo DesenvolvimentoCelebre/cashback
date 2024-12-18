@@ -1,16 +1,18 @@
 const pool = require('../database/connection');
-const {initializeVenom, getVenomClient} = require('../utils/wpp/conf')
+const {initializeVenom, getVenomClient, getVenomError} = require('../utils/wpp/conf')
 
 
 async function clientCreate(cpf, name, tel) {
     const query = "INSERT INTO client (cpf, name, tel, point) VALUES (?, ?, ?, 0)";
+    let venomErrorStatus = null; 
 
     try {
-        const result = await pool.query(query, [cpf, name, tel]);		
-	
-	const venomClient = getVenomClient();
-	
-	const message = `
+        const result = await pool.query(query, [cpf, name, tel]);
+        
+        if (result[0] && result[0].affectedRows == 1) {
+            const venomClient = getVenomClient();
+            const tele = `55${tel}@c.us`;
+            const message = `
 🌟 Bem-vindo à Toca do Açaí! 🌟
 
 Ficamos muito felizes em ter você como cliente. Aqui, além de saborear o melhor açaí da região, você acumula *cashback* em todas as suas compras!
@@ -23,27 +25,34 @@ A cada compra que você fizer, você vai acumular um saldo de cashback. Quando e
 Fique à vontade para aproveitar todos os benefícios e continue saboreando o melhor do açaí! 😋
 `;
 
-        const tele = `55${tel}@c.us`
+            try {
+                await venomClient.sendText(tele, message);
+            } catch (error) {
+                if (error.text === "The number does not exist") {
+                    venomErrorStatus = "Número informado não existe";
+                } else {
+                    venomErrorStatus = "Erro ao enviar mensagem pelo Venom";
+                }
+            }
 
-        await venomClient.sendText(tele, message);
-
-	if (result[0] && result[0].affectedRows == 1) {
-	return {
-	success: true,
-	message: ["Cliente criado com sucesso"]
-}
-}        
-    } catch (error) {
-        if (error.code === 'ER_DUP_ENTRY') {
             return {
-                success: false,
-                message: ["Cliente jÃ¡ cadastrado"],
+                success: true,
+                message: ["Cliente criado com sucesso"],
+                venomStatus: venomErrorStatus
+                    ? ["Atenção: " + venomErrorStatus]
+                    : ["Mensagem enviada com sucesso"],
             };
         }
-
+    } catch (error) {        if (error.code === "ER_DUP_ENTRY") {
+            return {
+                success: false,
+                message: ["Cliente já cadastrado"],
+            };
+        }
         throw error;
     }
 }
+
 
 
 async function clientList() {
